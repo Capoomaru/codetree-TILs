@@ -10,7 +10,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
         int K = Integer.parseInt(st.nextToken());
@@ -50,7 +49,6 @@ public class Main {
                 }
             }
             if(maxPoint == 0) {
-                System.out.println(answer);
                 return;
             }
             map = nextMap;
@@ -60,10 +58,11 @@ public class Main {
             int[] result = run(map, numList, cur);
             answer += result[0];
             cur = result[1];
-
+            
+            System.out.print(result[0]+ " ");
         }
 
-        System.out.println(answer);
+        System.out.println();
     }
 
     static int[][] turn(int[][] map, int startY, int startX, int direction) {
@@ -79,9 +78,9 @@ public class Main {
         }
         //180도
         else if(direction == 1) {
-            for(int i=startY;i<startY+3;i++) {
-                for(int j=startX;j<startX+3;j++) {
-                    newMap[i][j] = map[4 - i][4 - j];
+            for(int i=0;i<3;i++) {
+                for(int j=0;j<3;j++) {
+                    newMap[startY + i][startX + j] = map[startY + 2 - i][startX + 2 - j];
                 }
             }
         }
@@ -180,18 +179,20 @@ public class Main {
                     if(cnt >= 3) {
                         sum+=cnt;
                         fillList2.sort((o1, o2) -> {
-                            if(o1[0] == o2[0]) {
-                                return o1[1] - o2[1];
+                            if(o1[1] == o2[1]) {
+                                return o2[0] - o1[0];
                             }
-                            return o2[0] - o1[0];
+                            return o1[1] - o2[1];
                         });
                         fillList.addAll(fillList2);
                     }
                 }
             }
 
+            //System.out.println("fillList");
             for(int[] next : fillList) {
                 map[next[0]][next[1]] = fillMap[cur++];
+                //System.out.println(Arrays.toString(next) + " " + map[next[0]][next[1]]);
             }
         }
 
